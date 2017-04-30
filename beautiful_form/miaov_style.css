@@ -1,0 +1,38 @@
+/* http://www.miaov.com/ - coding: leo - QQ: 20907961 - time: 2010/8/19 */
+
+* { padding: 0; margin: 0; }
+li { list-style: none; }
+
+dl { width: 350px; height: 460px; padding: 25px; margin: 20px auto 0; background: url(images/dl_bg.gif) no-repeat; font-family: Microsoft YaHei; }
+dt { font-size: 22px; color: #6699cc; font-weight: bold; margin-bottom: 10px; }
+dd { width: 350px; position: relative; margin-bottom: 20px; }
+
+.clear { zoom:1; }
+.clear:after { content: '\20'; display: block; clear: both; }
+
+.text { border: none; width: 340px; height: 42px; line-height: 42px; padding: 0 10px; background: url(images/ico.gif) no-repeat; color: #777777; font-size: 16px; font-weight: bold; }
+
+.select_normal { background: url(images/ico.gif) no-repeat -199px -53px; position: absolute; top: 2px; left: 300px; width: 50px; height: 40px; cursor: pointer; }
+.select_active { background: url(images/ico.gif) no-repeat -256px -53px; position: absolute; top: 2px; left: 300px; width: 50px; height: 40px; cursor: pointer; }
+
+.area { width: 300px; border: 1px solid #bababa; background: #fff; position: absolute; top: 42px; left: 0; display: none; }
+.area li { width: 140px; line-height: 30px; float: left; padding-left: 10px; cursor: pointer; }
+.area .active { background: #ffccff; }
+
+h2 { float: left; width: 90px; padding-top: 10px; color: #999999; font-size: 14px; }
+.sex { float: left; width: 83px; height: 35px; background: url(images/ico.gif-) no-repeat 0 -53px; cursor: pointer; }
+.sex li { float: left; width: 41px; height: 35px; }
+.men_normal { background: url(images/ico.gif) no-repeat -92px -53px; }
+.men_active { background: url(images/ico.gif) no-repeat 0 -53px; }
+.woman_normal { background: url(images/ico.gif) no-repeat -42px -53px; }
+.woman_active { background: url(images/ico.gif) no-repeat -134px -53px; }
+
+.hobby { width: 250px; overflow: hidden; }
+.hobby li { float: left; width: 52px; height: 42px; line-height: 42px; padding-left: 30px; background: url(images/ico.gif) no-repeat -326px -50px;  color: #666666; cursor: pointer; }
+.hobby .active { background: url(images/ico.gif) no-repeat -70px -100px; }
+
+.btn input { border: none; width: 54px; height: 43px; background: url(images/ico.gif) no-repeat 0 -100px; color: #fff; font-family: Microsoft YaHei; font-weight: bold; }
+
+h5 { text-align: center; font-size: 14px; }
+h5 a { color: #9d5fad; text-decoration: none; }
+h5 a:hover { text-decoration: underline; position: relative; top: 1px; }
