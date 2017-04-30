@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>仿360桌面《我的壁纸》图片展示效果-mysweet95.com</title>
+  <meta charset="utf-8" />
+	<style>
+		ul,h2 {margin: 0; padding: 0;}
+		li {list-style: none;}
+		body {background: #fff;}
+		#miaov {width: 500px; height: 482px; background: url('img/top.png') repeat-x top; border: 1px solid #333; overflow: hidden; position: absolute; left: 400px; top: 10px;}
+		#miaov h2 {width: 500px; height: 31px; border-bottom: 1px solid #3c3c3c; line-height: 32px; overflow: hidden; font-size: 14px; color: #9c9c9c; padding-left: 10px; position: absolute; top: 0; left: 0;}
+		#miaov h2 a {float: right; padding-right: 30px; border: none; text-decoration: none; font-size: 14px; color: #9c9c9c;}
+		#miaov h2 a:hover {color: #ffff33;}
+		#wrapper {width: 500px; height: 450px; background: url(img/bg.jpg); position: absolute; top: 32px; left: 0;}
+		#view {width: 500px; height: 400px; margin: 0 auto; padding: 0px;}
+		#view img {position: absolute; left: 10px; top: 50px; width: 480px; height: 300px; z-index: 999;filter: alpha(opacity: 100); opacity: 1;}
+		#view div {position: absolute; left: 208px; top: 118px; width: 64px; height: 64px;}
+		#view div img {width: 64px; height: 64px;}
+		#thumb {width: 500px; height: 50px; background: url(img/bg1.png) repeat top; position: absolute; bottom: 0; left: 0;}
+		#thumb span {float: left; width: 20px; height: 50px; line-height: 50px; position: absolute; top: 0; font-weight: bolder; font-family: simsun; font-size: 15px; color: #cfcfcf; cursor: pointer;}
+		#thumb span.s1 {left: 10px; background: url('img/left.jpg') no-repeat;}
+		#thumb span.s2 {right: 10px; background: url('img/right.jpg') no-repeat top;}
+		#thumb span.hover {background-position: bottom;}
+		#list {width: 410px; height: 50px; position: absolute; top: 0; left: 30px;}
+		#list div {width: 420px; height: 50px;position: absolute; top: 0; left: 0; padding-left: 13px; border: 0px solid #333;}
+		#list div img {float: left; width: 28px; height: 22px; border: 1px solid #eee; margin: 13px 1px; z-index: 2;}
+		#list div img.active {width: 42px; height: 32px; border: 2px solid #ffff00;}
+
+		#news {width: 200px; height: 150px; position: absolute; left: 150px; top: 500px;}
+		#tip {position: absolute; bottom: 52px; color: #999; padding: 3px 5px; font-size: 12px; filter: alpha(opacity: 0); opacity: 0; text-align: center; line-height: 16px;}
+	</style>
+	<script src="miaov.js"></script>
+ </head>
+
+ <body>
+	<div id="miaov">
+		<h2><span>仿360桌面《我的壁纸》图片展示效果</span></h2>
+		<div id="wrapper">
+			<div id="view">
+				<img src="img/s1.jpg"/>
+				<div><img src="img/loading.gif"/></div>
+				<span id="tip"></span>
+			</div>
+			<div id="thumb">
+				<span class="s1"></span>
+				<span class="s2"></span>
+				<div id="list">
+					<div>
+						<img src="img/s11.jpg" /></li>
+						<img src="img/s2.jpg" /></li>
+						<img src="img/s3.jpg" /></li>
+						<img src="img/s4.jpg" /></li>
+						<img src="img/s5.jpg" /></li>
+						<img src="img/s6.jpg" /></li>
+						<img src="img/s7.jpg" /></li>
+						<img src="img/s8.jpg" /></li>
+						<img src="img/s9.jpg" /></li>
+						<img src="img/s10.jpg" /></li>
+						<img src="img/s1.jpg" /></li>
+						<img src="img/s12.jpg" /></li>
+						<img src="img/s1.jpg" /></li>
+						<img src="img/s2.jpg" /></li>
+						<img src="img/s3.jpg" /></li>
+						<img src="img/s4.jpg" /></li>
+						<img src="img/s5.jpg" /></li>
+						<img src="img/s6.jpg" /></li>
+						<img src="img/s7.jpg" /></li>
+						<img src="img/s8.jpg" /></li>
+						<img src="img/s9.jpg" /></li>
+						<img src="img/s10.jpg" /></li>
+						<img src="img/s11.jpg" /></li>
+						<img src="img/s12.jpg" /></li>
+						<img src="img/s1.jpg" /></li>
+						<img src="img/s2.jpg" /></li>
+						<img src="img/s3.jpg" /></li>
+						<img src="img/s4.jpg" /></li>
+						<img src="img/s5.jpg" /></li>
+						<img src="img/s6.jpg" /></li>
+						<img src="img/s7.jpg" /></li>
+						<img src="img/s8.jpg" /></li>
+						<img src="img/s9.jpg" /></li>
+						<img src="img/s10.jpg" /></li>
+						<img src="img/s11.jpg" /></li>
+						<img src="img/s12.jpg" /></li>
+						<img src="img/s1.jpg" /></li>
+						<img src="img/s2.jpg" /></li>
+						<img src="img/s3.jpg" /></li>
+						<img src="img/s4.jpg" /></li>
+						<img src="img/s5.jpg" /></li>
+						<img src="img/s6.jpg" /></li>
+						<img src="img/s7.jpg" /></li>
+						<img src="img/s8.jpg" /></li>
+						<img src="img/s9.jpg" /></li>
+						<img src="img/s10.jpg" /></li>
+						<img src="img/s11.jpg" /></li>
+						<img src="img/s12.jpg" /></li>
+					</div>
+				</div>
+			</div>
+			<img src="#" id="news"/>
+		</div>
+	</div>
+ </body>
+</html>
