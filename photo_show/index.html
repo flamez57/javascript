@@ -1,0 +1,397 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "/www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="/www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>淡雅图片展示-mysweet95.com</title>
+<style>
+*{ margin:0; padding:0;}
+ul,li{ list-style:none;}
+body{ background:#293640 url(img/logo.gif);}
+.bottom{ position:absolute; bottom:0; width:100%; background:#080a0d; padding:5px 0; z-index:2;}
+.list{ width:356px; height:50px; background:black; overflow:hidden; margin:0 auto; position:relative;}
+.list ul{ width:9999px; position:relative; left:0;}
+.list li{ float:left; display:inline; margin:0 1px 0 0; cursor:pointer; filter:alpha(opacity=50); opacity:0.5;}
+.list li img{}
+#otips{ position:absolute; display:none; border:1px #000 solid; font-size:12px; padding:5px; line-height:15px; background:#FFF; z-index:100;}
+.tg{ width:14px; height:9px; overflow:hidden; background:url(img/tg.gif) no-repeat; position:absolute; top:25px;}
+#active{ width:44px; height:44px; border:3px #FFFFFF solid; position:absolute; top:0; left:0;}
+#bigImg{ width:0; height:0; padding:5px; position:absolute; background-color:#FFFFFF; top:48%; left:50%; overflow:hidden;}
+.loading{ background:url(img/loading.gif) no-repeat center center; width:100%; height:100%;}
+</style>
+<script>
+window.onload = function(){
+	var miaov = miaov || {};
+	miaov.showImg = function(id){
+		if(!document.getElementById(id)){return false;}
+		var doc = document,
+		iNum = 0,
+		oImg = null,
+		oId = doc.getElementById(id),
+		oUl = oId.getElementsByTagName('ul')[0],
+		aLi = oUl.getElementsByTagName('li'),
+		oTips = document.getElementById('otips'),
+		oActive = document.getElementById('active'),
+		timer = null,
+		oBigImg = document.getElementById('bigImg');
+		oId.onmousemove = function(ev){
+			var ev = ev || event;
+			var posX = ev.clientX - oId.offsetLeft;
+			if(posX>50){
+			    if((posX-51)/256>=1){
+					miaovStartMove(oUl, {left: -(aLi.length-7)*51}, MIAOV_MOVE_TYPE.BUFFER);
+					miaovStartMove(oActive, {left: -(aLi.length-7)*51+iNum}, MIAOV_MOVE_TYPE.BUFFER);
+				}
+				else{
+					miaovStartMove(oUl, {left: -(posX-51)/256*(aLi.length-7)*51}, MIAOV_MOVE_TYPE.BUFFER);
+					miaovStartMove(oActive, {left: -(posX-51)/256*(aLi.length-7)*51+iNum}, MIAOV_MOVE_TYPE.BUFFER);
+				}
+			}
+			else{
+				miaovStartMove(oUl, {left: 0}, MIAOV_MOVE_TYPE.BUFFER);
+				miaovStartMove(oActive, {left: 0+iNum}, MIAOV_MOVE_TYPE.BUFFER);
+			}
+		};
+		
+		for(var i=0;i<aLi.length;i++){
+			aLi[i].bBtn = true;
+			aLi[i].index = i;
+			aLi[i].onmouseover = function(ev){
+				miaovStartMove(this, {opacity:100}, MIAOV_MOVE_TYPE.BUFFER);
+				_addTips(this,ev);
+			};
+			aLi[i].onmouseout = function(ev){
+				if(this.bBtn){
+					miaovStartMove(this, {opacity:50}, MIAOV_MOVE_TYPE.BUFFER);
+				}
+				_removeTips(this,ev);
+				
+			};
+			aLi[i].onmousemove = function(ev){
+				_followTips(this,ev);
+			}
+			aLi[i].onclick = function(){
+				stopMove(first(oBigImg));
+				for(var i=0;i<aLi.length;i++){
+					aLi[i].style.filter = 'alpha(opacity=50)';
+					aLi[i].style.opacity = 0.5;
+					if(this.bBtn!=aLi[i].bBtn){
+						aLi[i].bBtn = true;
+					}
+				}
+				this.style.filter = 'alpha(opacity=100)';
+				this.style.opacity = 1;
+				if(this.bBtn==true){
+					iNum = this.offsetLeft;
+					miaovStartMove(oActive, {left: this.offsetLeft+oUl.offsetLeft}, MIAOV_MOVE_TYPE.BUFFER);
+					var aaa = new Image();
+					aaa.onload = function(){	
+							miaovStartMove(oBigImg, {width:aaa.width,height:aaa.height,marginTop:-aaa.height/2,marginLeft:-aaa.width/2}, MIAOV_MOVE_TYPE.BUFFER,function(){
+								first(oBigImg).src = aaa.src;
+								first(oBigImg).width = aaa.width;
+								first(oBigImg).height = aaa.height;
+								miaovStartMove(first(oBigImg),{opacity:100},MIAOV_MOVE_TYPE.BUFFER);
+							});
+					};
+					
+					aaa.src = 'img/image'+(this.index+1)+'.jpg';
+					
+					first(oBigImg).style.filter = 'alpha(opacity=0)';
+					first(oBigImg).style.opacity = 0;
+				}
+				this.bBtn = false;
+			};
+		}
+		function createImg(){
+			oImg = document.createElement('img');
+			oImg.style.filter = 'alpha(opacity=0)';
+			oImg.style.opacity = 0;
+			var aaa = new Image();
+			aaa.onload = function(){
+				oImg.src = this.src;
+				miaovStartMove(oBigImg, {width:aaa.width,height:aaa.height,marginTop:-aaa.height/2,marginLeft:-aaa.width/2}, MIAOV_MOVE_TYPE.BUFFER,function(){
+					miaovStartMove(oImg,{opacity:100},MIAOV_MOVE_TYPE.BUFFER);
+				});
+			};
+			aaa.src = 'img/image1.jpg';
+			oBigImg.appendChild(oImg);	
+		}
+		createImg();
+		function _addTips(el,ev){
+			var t = el.getElementsByTagName('img')[0].title;
+			var ev = fixEvent(ev); 
+			el.getElementsByTagName('img')[0].title = '';
+			if(t){
+				oTips.style.display = 'block';
+				oTips.innerHTML = '<div class="tg"></div>' + t;
+				oTips.style.top = ev.pageY - 50 + 'px';
+				oTips.style.left = ev.pageX - 20 + 'px';
+			}
+		}
+		function _removeTips(el,ev){
+			this.onmouseover = null;
+			this.onmouseout = null;
+			this.onmousemove = null;
+			oTips.style.display = 'none';
+			el.getElementsByTagName('img')[0].title = oTips.innerHTML;
+		}
+		function _followTips(el,ev){
+			var ev = fixEvent(ev);
+			oTips.style.top = ev.pageY - 50 + 'px';
+			oTips.style.left = ev.pageX - 20 + 'px';
+		}
+		
+		function toHide(){
+			timer = setTimeout(function(){
+				miaovStartMove(oId,{height:0},MIAOV_MOVE_TYPE.BUFFER);
+			},3000);
+		}
+		
+		function toShow(){
+			document.onmousemove = function(ev){
+				var ev = ev || window.event;
+				
+				if(ev.clientY>document.documentElement.clientHeight - 60){
+					clearTimeout(timer);
+					miaovStartMove(oId,{height:50},MIAOV_MOVE_TYPE.BUFFER);
+				}
+				else{
+					clearTimeout(timer);
+					timer = setTimeout(function(){
+						miaovStartMove(oId,{height:0},MIAOV_MOVE_TYPE.BUFFER);
+					},1000);
+				}
+			};
+		}
+		toShow();
+		toHide();
+		
+	}('list');
+};
+function fixEvent(event){
+	event = event || window.event;
+	if(!event.target) event.target = event.srcElement || document;
+	if( event.target.nodeType == 3){
+		try{
+			event.target = event.target.parentNode;
+		}
+		catch(e){}
+	}
+	if(event.pageX == null && event.clientX != null){
+		var doc = document.documentElement, body = document.body;
+		event.pageX = event.clientX + (doc && doc.scrollLeft || body && body.scrollLeft || 0) - (doc.clientLeft || 0);
+		event.pageY = event.clientY + (doc && doc.scrollTop || body && body.scrollTop || 0) - (doc.clientTop || 0);
+	}
+	if(event.layerX == null && event.offsetX != null){
+		event.layerX = event && event.offsetX;
+		event.layerY = event && event.offsetY;
+	}
+	event.stop = function(){
+		if(event.stopPropagation){
+			event.stopPropagation();
+		}
+		event.cancelBubble = true;
+
+		if(event.preventDefault){
+			event.preventDefault();
+		}
+		event.returnValue = false;
+	}
+	return event;
+}
+function next(obj){
+	return obj.nextSibling.nodeType == 1 ? obj.nextSibling : next(obj.nextSibling);
+}
+function pre(obj){
+	return obj.previousSibling.nodeType == 1 ? obj.previousSibling : pre(obj.previousSibling);
+}
+function first(obj){
+	return obj.firstChild.nodeType == 1 ? obj.firstChild : next(obj.firstChild);
+}
+
+function last(obj){
+	return obj.lastChild.nodeType == 1 ? obj.lastChild : pre(obj.lastChild);
+}
+function css(obj, attr, value)
+{
+	if(arguments.length==2)
+	{
+		var sCur=obj.currentStyle?obj.currentStyle[attr]:document.defaultView.getComputedStyle(obj, false)[attr];
+		if(attr=='opacity')
+		{
+			return parseInt(parseFloat(sCur)*100);
+		}
+		else
+		{
+			return parseInt(sCur);
+		}
+	}
+	else if(arguments.length==3)
+		switch(attr)
+		{
+			case 'width':
+			case 'height':
+			case 'paddingLeft':
+			case 'paddingTop':
+			case 'paddingRight':
+			case 'paddingBottom':
+				value=Math.max(value,0);
+			case 'left':
+			case 'top':
+			case 'marginLeft':
+			case 'marginTop':
+			case 'marginRight':
+			case 'marginBottom':
+				obj.style[attr]=value+'px';
+				break;
+			case 'opacity':
+				obj.style.filter="alpha(opacity:"+value+")";
+				obj.style.opacity=value/100;
+				break;
+			default:
+				obj.style[attr]=value;
+		}
+	
+	return function (attr_in, value_in){css(obj, attr_in, value_in)};
+}
+
+var MIAOV_MOVE_TYPE={
+	BUFFER: 1,
+	FLEX: 2,
+	FAST: 3,
+	SLOW: 4,
+	NORMAL: 5
+};
+function miaovStartMove(obj, oTarget, iType, fnCallBack, fnDuring)
+{
+	var fnMove=null;
+	if(obj.timer)
+	{
+		clearInterval(obj.timer);
+	}
+	
+	switch(iType)
+	{
+		case MIAOV_MOVE_TYPE.BUFFER:
+			fnMove=miaovDoMoveBuffer;
+			break;
+		case MIAOV_MOVE_TYPE.FLEX:
+			fnMove=miaovDoMoveFlex;
+			break;
+	}
+	
+	obj.timer=setInterval(function (){
+		fnMove(obj, oTarget, fnCallBack, fnDuring);
+		
+		var now=(new Date()).getTime();
+		obj.lastMove=now;
+	}, 30);
+	
+	if(!obj.lastMove)
+	{
+		obj.lastMove=0;
+	}
+	
+	var now=(new Date()).getTime();
+	if(now-obj.lastMove>30)
+	{
+		fnMove(obj, oTarget, fnCallBack, fnDuring);
+		
+		var now=(new Date()).getTime();
+		obj.lastMove=now;
+	}
+}
+
+function miaovDoMoveBuffer(obj, oTarget, fnCallBack, fnDuring)
+{
+	var bStop=true;
+	var attr='';
+	var speed=0;
+	var cur=0;
+	
+	for(attr in oTarget)
+	{
+		oTarget[attr]=parseInt(oTarget[attr]);
+		cur=css(obj, attr);
+		if(oTarget[attr]!=cur)
+		{
+			bStop=false;
+			
+			speed=(oTarget[attr]-cur)/5;
+			speed=speed>0?Math.ceil(speed):Math.floor(speed);
+			css(obj, attr, cur+speed);
+		}
+	}
+	
+	if(fnDuring)fnDuring.call(obj);
+	
+	if(bStop)
+	{
+		clearInterval(obj.timer);
+		obj.timer=null;
+		
+		if(fnCallBack)fnCallBack.call(obj);
+	}
+}
+
+function miaovDoMoveFlex(obj, oTarget, fnCallBack, fnDuring)
+{
+	var bStop=true;
+	var attr='';
+	var speed=0;
+	var cur=0;
+	
+	for(attr in oTarget)
+	{
+		if(!obj.oSpeed)obj.oSpeed={};
+		if(!obj.oSpeed[attr])obj.oSpeed[attr]=0;
+		cur=css(obj, attr);
+		if(Math.abs(oTarget[attr]-cur)>=1 || Math.abs(obj.oSpeed[attr])>=1)
+		{
+			bStop=false;
+			
+			obj.oSpeed[attr]+=(oTarget[attr]-cur)/5;
+			obj.oSpeed[attr]*=0.7;
+			
+			css(obj, attr, cur+obj.oSpeed[attr]);
+		}
+	}
+	
+	if(fnDuring)fnDuring.call(obj);
+	
+	if(bStop)
+	{
+		clearInterval(obj.timer);
+		obj.timer=null;
+		
+		if(fnCallBack)fnCallBack.call(obj);
+	}
+}
+
+function stopMove(obj){
+	clearInterval(obj.timer);
+}
+</script>
+</head>
+
+<body>
+<div class="bottom">
+    <div id="list" class="list">
+        <ul>
+            <li style="filter:aplha(opacity=100);opacity:1;"><img src="img/thumb1.jpg" title="四月维夏，六月徂暑，先祖匪人，胡宁忍予" /></li>
+            <li><img src="img/thumb2.jpg" title="秋日凄凄，百卉具腓，乱离瘼矣，爰其适归" /></li>
+            <li><img src="img/thumb3.jpg" title="冬日烈烈，飘风发发，民莫不穀，我独何害" /></li>
+            <li><img src="img/thumb4.jpg" title="山有嘉卉，侯栗侯梅，废为残贼，莫知其尤" /></li>
+            <li><img src="img/thumb5.jpg" title="相彼泉水，载清载浊，我日构祸，曷云能穀" /></li>
+            <li><img src="img/thumb6.jpg" title="滔滔江汉，南国之纪，尽瘁以仕，宁莫我有" /></li>
+            <li><img src="img/thumb7.jpg" title="匪鹑匪鸢，翰飞戾天，匪鳣匪鲔，潜逃于渊" /></li>
+            <li><img src="img/thumb8.jpg" title="山有蕨薇，隰有杞桋，君子作歌，维以告哀" /></li>
+            <li><img src="img/thumb9.jpg" title="陟彼北山，言采其杞，偕偕士子，朝夕从事" /></li>
+            <li><img src="img/thumb10.jpg" title="王事靡盬，忧我父母，溥天之下，莫非王土" /></li>
+        </ul>
+        <div id="active"></div>
+    </div>
+</div>
+<div id="otips"></div>
+<div id="bigImg" class="loading"></div>
+</body>
+</html>
