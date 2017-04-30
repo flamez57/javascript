@@ -1,0 +1,256 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<head>
+<title>实用的全屏相册展示-妙味课堂-mysweet95.com</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=8">
+
+<script src="move.js" type="text/javascript"></script>
+<script>
+window.onload = function()
+{
+	var oPrev = document.getElementById('prev');
+	var oNext = document.getElementById('next');
+	var oPlay = document.getElementById('play');
+	var oImg = document.getElementById('images');
+	var _Img = document.getElementById('img');
+	var _aImg = document.getElementById('img02')
+	var aDiv = _Img.getElementsByTagName('div');
+	var aImg = oImg.getElementsByTagName('img');
+	var oPrevSm = document.getElementById('prevSm');
+	var oNextSm = document.getElementById('nextSm');
+	var thisImg = document.getElementById('length');
+	var length = document.getElementById('thisImg');
+	var oLayer = document.getElementById('layer');
+	var aLayerImg = oLayer.getElementsByTagName('img');
+	var oClose = document.getElementById('close');
+	var oAlbum = document.getElementById('album');
+	var iNow = 0;
+	var timer = null;
+	var play = 0;
+	var zIndex = 3;
+	
+	function initial()
+	{
+		//初始化
+		oImg.style.height = document.documentElement.clientHeight + 'px';
+		for(var i=0;i<aDiv.length;i++)
+		{
+			aDiv[i].style.width = document.documentElement.clientWidth + 'px';
+			aDiv[i].style.height = document.documentElement.clientHeight + 'px';
+		}
+		for(var i=0;i<aImg.length;i++)
+		{
+			aImg[i].style.width = document.documentElement.clientWidth + 'px';
+		}
+		
+		//图片个数初始化
+		length.innerHTML = aLayerImg.length;
+		thisImg.innerHTML = iNow+1;
+		oImg.style.width = document.documentElement.clientWidth;
+		oImg.style.height = document.documentElement.clientHeight;
+		
+		
+		oLayer.style.left = (document.documentElement.clientWidth - oLayer.offsetWidth)/2 + 'px'
+		oLayer.style.top = (document.documentElement.clientHeight - oLayer.offsetHeight)/2 + 'px'
+		
+		oPrevSm.src = aLayerImg[aLayerImg.length-1].src;
+		oNextSm.src = aLayerImg[iNow+1].src;
+	}
+	initial();
+	window.onresize = initial;
+	
+	
+	for(var i=0; i<aLayerImg.length;i++)
+	{
+		aLayerImg[i].index = i;
+		aLayerImg[i].onclick = function()
+		{
+			_aImg.src = this.src;
+			oLayer.style.display = 'none';
+			
+			iNow = this.index;
+			imgClick();
+			startMove(oLayer, {opacity:0},function(){
+				startMove(oAlbum, {opacity:100})
+			});
+		}
+	}
+	
+	oClose.onclick = function()
+	{
+		oLayer.style.display = 'none';
+		startMove(oAlbum, {opacity:100})
+	}
+	
+	oAlbum.onclick = function()
+	{
+		oLayer.style.display = 'block';
+		oLayer.style.filter='alpha(opacity:100)';
+		oLayer.style.opacity=1;
+		startMove(oAlbum, {opacity:0});
+		initial();
+	}
+	
+	function imgClick()
+	{
+		_aImg.style.filter='alpha(opacity:0)';
+		_aImg.style.opacity=0;
+		
+		if(iNow==0)
+		{
+			oPrevSm.src = aLayerImg[aLayerImg.length-1].src;
+			oNextSm.src = aLayerImg[iNow+1].src;
+			thisImg.innerHTML = iNow+1;
+			_aImg.src = 'images/'+ (iNow+1) +'.jpg';
+		}
+		else if(iNow==aLayerImg.length-1)
+		{
+			oNextSm.src = aLayerImg[0].src;
+			oPrevSm.src = aLayerImg[aLayerImg.length-2].src;
+			thisImg.innerHTML = iNow+1;
+			_aImg.src = 'images/' + (iNow+1) + '.jpg';
+		}
+		else
+		{
+			oPrevSm.src = aLayerImg[iNow-1].src;
+			oNextSm.src = aLayerImg[iNow+1].src;
+			thisImg.innerHTML = iNow+1;
+			_aImg.src = 'images/'+ (iNow+1) +'.jpg';
+		}
+		
+		startMove(_aImg,{opacity:100});
+	}
+	oNextSm.onclick = oNext.onclick = function()
+	{	
+		if(iNow==aLayerImg.length-1)
+		{
+			iNow=0;
+		}
+		else
+		{
+			iNow++;
+		}
+		imgClick();
+	}
+	
+	oPrevSm.onclick = oPrev.onclick = function()
+	{
+		if(iNow==0)
+		{
+			iNow=aLayerImg.length-1;
+		}
+		else
+		{
+			iNow--;
+		}
+		imgClick();
+	}
+	
+	oPlay.onclick = function()
+	{
+		play++;
+		if(play%2==1)
+		{
+			this.src = 'img/play_dull.png';
+			timer = setInterval(function(){
+				if(iNow==aLayerImg.length-1)
+				{
+					iNow=0;
+				}
+				else
+				{
+					iNow++;
+				}
+				//thisImg.innerHTML = iNow+1;
+				imgClick();
+			},2500)
+		}
+		else
+		{
+			this.src = 'img/pause_dull.png';
+			clearInterval(timer);
+		}
+	}
+	
+	//交互效果
+	oNext.onmousedown = function()
+	{
+		this.src = 'img/forward.png';
+	}
+	oNext.onmouseup = function()
+	{
+		this.src = 'img/forward_dull.png';
+	}
+	oPlay.onmousedown = function()
+	{
+		this.src = 'img/pause.png';
+	}
+	oPlay.onmouseup = function()
+	{
+		this.src = 'img/pause_dull.png';
+		this.src = 'img/play_dull.png';
+	}
+	oPrev.onmousedown = function()
+	{
+		this.src = 'img/back.png';
+	}
+	oPrev.onmouseup = function()
+	{
+		this.src = 'img/back_dull.png';
+	}
+}
+</script>
+
+
+
+
+<link rel="stylesheet" href="css/supersized.css" type="text/css" media="screen">
+</head>
+<body>		
+<!--弹出层-->
+<div class="layer" id="layer">
+	<h3><span>当前相册内容</span><a href="javascript:;" id="close">×</a></h3>
+	<div>
+    	<img src="images/1.jpg">
+        <img src="images/2.jpg">
+        <img src="images/3.jpg">
+        <img src="images/4.jpg">
+        <img src="images/5.jpg">
+        <img src="images/6.jpg">
+        <img src="images/7.jpg">
+        <img src="images/8.jpg">
+        <img src="images/9.jpg">
+        <img src="images/10.jpg">
+        <img src="images/11.jpg">
+        <img src="images/12.jpg">
+    </div>
+</div>
+<div id="images">
+	<div id="img">
+        <div style="z-index:2;"><img src="images/default.jpg" id="img02"></div>
+    </div>
+</div>
+<div id="content">
+    <p>
+        mysweet95.com<br>
+        <a href="http://mysweet95.com" alt="" target="_blank">About Us</a>
+        <a href="http://mysweet95.com" alt="" target="_blank">Contact Us</a>
+    </p>
+</div>
+<div id="controls-wrapper">
+    <div id="controls">
+        <div id="slidecounter">
+            <span class="slidenumber" id="length"></span>/<span class="totalslides" id="thisImg"></span>
+        </div>
+        <div id="slidecaption">mysweet95.com</div>
+        <div id="navigation">
+           <img src="img/album.png" id="album"><img id="prev" src="img/back_dull.png"><img id="play" src="img/pause_dull.png"><img id="next" src="img/forward_dull.png">
+        </div>
+    </div>
+    
+    <div id="prevthumb" style="display: block; "><img src="images/default.jpg" id="prevSm"></div>
+    <div id="nextthumb" style="display: block; "><img src="images/default.jpg" id="nextSm"></div>
+</div>
+
+</body>
+</html>

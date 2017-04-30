@@ -1,0 +1,64 @@
+@charset "utf-8";
+/*清零*/
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div,dl,dt,dd,input{margin:0;padding:0;border:0;}
+body{font-size:12px; /*font-family:"宋体";font-family:'Microsoft YaHei';*/}
+ul,ol{list-style-type:none;}
+select,input,img{vertical-align:middle;}
+a{text-decoration:none;}
+/*妙味课堂*/
+body {background:#111;}
+img{border:none;}
+
+#supersized-loader { position:absolute; top:50%; left:50%; z-index:10; width:60px; height:60px; margin:-30px 0 0 -30px; text-indent:-999em; background-color:#111; background:rgba(0,0,0,0.8) url(../img/progress.gif) no-repeat center center; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px;}
+
+#supersized { position:fixed; left:0; top:0; overflow:hidden; z-index:-999; height:100%; width:100%; }
+#supersized img{ width:auto; height:auto; position:relative; display:none; outline:none; border:none; }
+#supersized.speed img { -ms-interpolation-mode:nearest-neighbor; image-rendering: -moz-crisp-edges;}	/*Speed*/
+#supersized.quality img { -ms-interpolation-mode:bicubic; image-rendering: optimizeQuality; }			
+
+#supersized a { z-index:-30; position:absolute; overflow:hidden; top:0; left:0; width:100%; height:100%; background:#111;}
+#supersized a.prevslide {z-index:-20; }
+#supersized a.activeslide {z-index:-10; }
+#supersized a.prevslide img, #supersized a.activeslide img{ display:inline; }
+
+/*Controls Section*/
+#controls-wrapper { margin:0 auto; height:62px; width:100%; bottom:0; left:0; z-index:4; background:url(../img/nav-bg.png) repeat-x; position:fixed; }
+#controls { overflow:hidden; height:100%; text-align:left; z-index:5; padding:0 114px; /* Increase padding to give thumbnails room */ }
+		#slidecounter { float:left; color:#888; font:23px "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight:bold; text-shadow:#000 0 -1px 0; margin:19px 10px 18px 20px; }
+		#slidecaption { overflow:hidden; float:left; color:#FFF; font:16px "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight:bold; text-shadow:#000 0 2px 0; margin:23px 20px 23px 0; }
+		#navigation { float:right; margin:10px 20px 0 0; }
+
+/*Thumbnail Navigation*/	
+#nextthumb,#prevthumb { z-index:6; display:none; position:fixed; bottom:12px; height:75px; width:100px; overflow:hidden; background:#ddd; border:2px solid #fff; -webkit-box-shadow:0 0 5px #000; }
+	#nextthumb { right:12px; }
+	#prevthumb { left:12px; }
+		#nextthumb img, #prevthumb img { width:150px; height:auto;  }
+		#nextthumb:active, #prevthumb:active { bottom:10px; }
+		#navigation > :hover,#nextthumb:hover, #prevthumb:hover { cursor:pointer; }
+#album{opacity:0;/*非IE*/filter:alpha(opacity=0);/*IE*/}
+		
+			
+/*------------------------*/
+
+p{ padding:30px; color:#fff; font:11pt "Helvetica Neue", "Helvetica", Arial, sans-serif; text-shadow: #000 0px 1px 0px; line-height:200%; }
+p a{ font-size:10pt; text-decoration:none; outline: none; color:#ddd; background:#222; border-top:1px solid #333; padding:5px 8px; -moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; -moz-box-shadow: 0px 1px 1px #000; -webkit-box-shadow: 0px 1px 1px #000; box-shadow: 0px 1px 1px #000; }
+p a:hover{ background-color:#427cb4; border-color:#5c94cb; color:#fff; }
+h3{ padding:30px 30px 20px 30px; }
+
+#content{ position:absolute; top:50px; left:50px; background:#111; background:rgba(0,0,0,0.50); width:360px; text-align:left; -webkit-border-radius:6px; -moz-border-radius:6px; z-index:99;border-radius:3px;}
+.stamp{ float: right; margin: 15px 30px 0 0;}
+			
+			
+/*img */
+#images{width:100%; overflow:hidden; height:100%;}
+#images div{float:left; height:100%; width:100%; overflow:hidden; position:absolute; z-index:1;}
+#images img{margin:0 auto; display:block; left:0; top:0;opacity:0;/*非IE*/filter:alpha(opacity=0);/*IE*/}
+
+
+/*弹出层*/
+.layer{width:653px; height:439px; margin:0 auto; position:absolute; background:#666; z-index:999999; overflow:hidden;opacity:1;/*非IE*/filter:alpha(opacity=100);/*IE*/}
+.layer h3{height:30px; text-align:right; padding:0; margin:0;}
+.layer h3 a{display:inline-block; width:26px; height:24px; float:right;}
+.layer h3 span{float:left; padding-left:20px; line-height:25px; color:#FFF;}
+.layer div{padding-left:10px;}
+.layer img{margin:10px; border:#FFF solid 3px; float:left; width:132px; cursor:pointer; height:90px; display:block;}
