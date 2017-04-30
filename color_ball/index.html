@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style>
+body {background:black; margin:0; overflow:hidden;}
+h1 { position:absolute; top:4px; left:10px; margin:0; width:430px; }
+h1 a { width:256px; height:37px; float:left;}
+h1 strong { float:left; font-size:14px; color:#FFCC66; padding-top:12px; font-weight: normal; font-family:arial; }
+#fps { color:#94d37e; margin-left:10px;}
+#bg {width:100%; height:100%; background:white; filter:alpha(opacity:50); opacity:0.5; position:absolute; left:0; top:0;}
+#loading {position:absolute; top:50%; color:white; z-index:2; text-align:center; width:100%;}
+img {position:absolute;}
+#ctrl_pad {background:black url(body_bg.gif) repeat-x 0 48px; height:85px; color:#fff;}
+#auto_play { width:107px; height:31px; background:url(btn.gif) no-repeat; border:none; color:#e1e1e1; font-size:12px; position:absolute; top:8px; left:450px; }
+h2 { text-align:center; color: #524e69; width:100%; position:absolute; bottom:10px; left:0; font-size:16px; font-weight:normal; font-family:arial; }
+h2 a { color: #524e69; text-decoration:none; }
+h2 a:hover { border-bottom:1px dotted #00CCCC; color:#0cc; }
+#info { color:#827ed3;font-size:14px; font-family:arial; font-weight:bold; position:absolute; top:15px; left:570px;}
+.btn,#show_pad { position:absolute; top:16px; right:20px; color:#9a9a9a; text-decoration:none; font-size:12px; }
+.btn:hover,#show_pad:hover { text-decoration:none; color:#ccc; }
+em { color:#ccc; font-size:12px; font-weight:normal; font-style:normal; }
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>彩虹圈-mysweet95.com</title>
+<script type="text/javascript">
+function getNow()
+{
+	return (new Date()).getTime();
+}
+
+function rnd(min, max)
+{
+	return parseInt((Math.random()*999999)%(max-min+1))+min;
+}
+
+window.onload=function ()
+{
+	//控制
+	var oCtrl=document.getElementById('ctrl_pad');
+	var oAutoPlay=document.getElementById('auto_play');
+	var iAutoPlayTimer=0;
+	var bManual=true;
+	
+	var SPEED_CNG_RATE=4;
+	var SPEED_MAX=20;
+	var AUTO_SAMP_RATE=1;
+	
+	oAutoPlay.onclick=function ()
+	{
+		if(this.value=='自动移动')
+		{
+			var x=rnd(0, document.documentElement.clientWidth);
+			var y=rnd(0, document.documentElement.clientHeight);
+			var xSpeed=rnd(-SPEED_MAX,SPEED_MAX);
+			var ySpeed=rnd(-SPEED_MAX,SPEED_MAX);
+			
+			iAutoPlayTimer=setInterval(function (){
+				if(!(samp++%AUTO_SAMP_RATE))
+				{
+					onMove(x, y);
+				}
+				x+=xSpeed;
+				y+=ySpeed;
+				
+				if(x<=SIZE/2)xSpeed=rnd(0,SPEED_MAX);
+				if(x>=document.documentElement.clientWidth-SIZE/2)xSpeed=-rnd(0,SPEED_MAX);
+				
+				if(y<=SIZE/2)ySpeed=rnd(0,SPEED_MAX);
+				if(y>=document.documentElement.clientHeight-SIZE/2)ySpeed=-rnd(0,SPEED_MAX);
+				
+				if(xSpeed<-SPEED_MAX)
+				{
+					xSpeed+=rnd(0,SPEED_CNG_RATE);
+				}
+				else if(xSpeed>SPEED_MAX)
+				{
+					xSpeed+=rnd(-SPEED_CNG_RATE,0);
+				}
+				else
+				{
+					xSpeed+=rnd(-SPEED_CNG_RATE,SPEED_CNG_RATE);
+				}
+				
+				if(ySpeed<-SPEED_MAX)
+				{
+					ySpeed+=rnd(0,SPEED_CNG_RATE);
+				}
+				else if(ySpeed>SPEED_MAX)
+				{
+					ySpeed+=rnd(-SPEED_CNG_RATE,0);
+				}
+				else
+				{
+					ySpeed+=rnd(-SPEED_CNG_RATE,SPEED_CNG_RATE);
+				}
+			}, 30);
+			
+			stop();
+			
+			this.value='手动移动';
+			bManual=false;
+		}
+		else
+		{
+			restart();
+			clearInterval(iAutoPlayTimer);
+			this.value='自动移动';
+			bManual=true;
+		}
+	};
+	
+	var oLogo=document.createElement('h1');
+	var copyright=document.createElement('h2');
+	oLogo.title="妙味课堂";
+	oLogo.innerHTML='<a href=""></a><strong>彩虹圈</strong>';
+	copyright.innerHTML='☆  ☆  ☆';
+	document.body.appendChild(oLogo);
+	document.body.appendChild(copyright);
+	
+	var aEle=document.body.getElementsByTagName('*');
+	for(i=0;i<aEle.length;i++)
+	{
+		aEle[i].onmousedown=function (ev)
+		{
+			(ev||event).cancelBubble=true;
+		};
+	}
+	
+	var bCanUse=false;
+	
+	//核心
+	var oFps=document.getElementById('fps');
+	var aSharps=[];
+	var aImgs=[];
+	var aSrc=['qun_1.png', 'qun_3.png', 'qun_5.png', 'qun_4.png', 'qun_2.png'];
+	var count=0;
+	var samp=0;
+	var continue_count=0;
+	var i=0;
+	
+	var lastIType=-1;
+	
+	var SAMP_RATE=3;
+	var SPEED_RATE=20;
+	var FPS_RATE=20;
+	var SIZE=100;
+	var CONTINUE_LEN=5;
+	
+	if(/safari/i.test(navigator.userAgent))
+	{
+		SPEED_RATE=45;
+	}
+	else if(/firefox/i.test(navigator.userAgent))
+	{
+		SPEED_RATE=30;
+	}
+	
+	/*for(i=1;i<=5;i++)
+	{
+		aSrc.push('qun_'+i+'.png');
+	}*/
+	
+	for(i=0;i<aSrc.length;i++)
+	{
+		aImgs[i]=new Image();
+		aImgs[i].onload=function ()
+		{
+			count++;
+			
+			if(count==aSrc.length)
+			{
+				document.getElementById('bg').style.display='none';
+				document.getElementById('loading').style.display='none';
+				start();
+			}
+		};
+		aImgs[i].onerror=function ()
+		{
+			document.getElementById('loading').innerHTML='<span style="color:red; font-weight:bold;">素材加载失败，请刷新后重试</span>';
+		};
+		aImgs[i].src=aSrc[i];
+	}
+	
+	function onMove(x, y)
+	{
+		if(continue_count++%CONTINUE_LEN)
+		{
+			var iType=lastIType;
+		}
+		else
+		{
+			/*do
+			{
+				var iType=rnd(0, aImgs.length-1);
+			}while(lastIType==iType);*/
+			iType=(lastIType+1)%aSrc.length;
+			
+			lastIType=iType;
+		}
+		
+		createImg(iType, x, y, 1000);
+	}
+	
+	function createImg(index, l, t)
+	{
+		var oImg=document.createElement('img');
+		oImg.src=aImgs[index].src;
+		
+		oImg.style.left=l+'px';
+		oImg.style.top=t+'px';
+		oImg.height=aImgs[index].height;
+		oImg.width=aImgs[index].width;
+		oImg.style.marginLeft=-oImg.width/2+'px';
+		oImg.style.marginTop=-oImg.height/2+'px';
+		
+		document.body.appendChild(oImg);
+		
+		aSharps.push({obj: oImg, endTime: getNow(), speedX: aImgs[index].width/SPEED_RATE, speedY: aImgs[index].height/SPEED_RATE});
+	}
+	
+	function stop()
+	{
+		document.onmousedown=null;
+	}
+	
+	function restart()
+	{
+		document.onmousedown=fnHandlerMouseMove;
+	}
+	
+	setTimeout(function (){
+		if(!bCanUse)
+		{
+			oAutoPlay.onclick();
+		}
+	}, 3000);
+	
+	function fnHandlerMouseMove()
+	{
+		bCanUse=true;
+		document.onmousemove=function (ev)
+		{
+			var oEvent=ev||event;
+			
+			if(!(samp++%SAMP_RATE))
+			{
+				onMove(oEvent.clientX, oEvent.clientY);
+			}
+			return false;
+		};
+		
+		document.onmouseup=function ()
+		{
+			document.onmousemove=null;
+			document.onmouseup=null;
+		};
+		return false;
+	};
+	
+	function start()
+	{
+		document.onmousedown=fnHandlerMouseMove;
+		
+		var lastTime=0;
+		var iShowFps=0;
+		var lastMove=0;
+		
+		setInterval(function (){
+			var iNow=getNow();
+			
+			var aNewSharps=[];
+			
+			if(iNow-lastMove>30)
+			{
+				for(i=0;i<aSharps.length;i++)
+				{
+					aSharps[i].obj.width=Math.max(aSharps[i].obj.offsetWidth-aSharps[i].speedX, 0);
+					aSharps[i].obj.height=Math.max(aSharps[i].obj.offsetHeight-aSharps[i].speedY, 0);
+					
+					if(bManual)
+						aSharps[i].obj.style.top=parseInt(aSharps[i].obj.style.top)-5+'px';
+					
+					aSharps[i].obj.style.marginLeft=-aSharps[i].obj.offsetWidth/2+'px';
+					aSharps[i].obj.style.marginTop=-aSharps[i].obj.offsetHeight/2+'px';
+					
+					if(aSharps[i].obj.width==0 || aSharps[i].obj.height==0)
+					{
+						document.body.removeChild(aSharps[i].obj);
+					}
+					else
+					{
+						aNewSharps.push(aSharps[i]);
+					}
+				}
+				
+				aSharps=aNewSharps;
+				lastMove=iNow;
+			}
+			
+			if(!(iShowFps++%FPS_RATE))
+			{
+				oFps.innerHTML=parseInt(1000/(iNow-lastTime));
+			}
+			lastTime=iNow;
+		}, 1);
+	}
+	
+	if(/msie/i.test(navigator.userAgent))
+	{
+		alert('您当前正在使用IE浏览器，此浏览器性能较低，无法呈现本程序效果，建议换成火狐或Safari');
+	}
+};
+document.oncontextmenu=function()
+{
+	return false;
+};
+</script>
+</head>
+
+<body>
+<div id="ctrl_pad">
+	
+	<a class="btn" href="javascript:;" onclick="document.getElementById('ctrl_pad').style.display='none';document.getElementById('show_pad').style.display='block';">↑↑ 收缩</a>
+	<div id="info">
+		<em>可以在屏幕上随便拖拽鼠标，或者点击“自动移动”</em> - FPS:<span id="fps"></span>
+	</div>
+	<input id="auto_play" type="button" value="自动移动" />
+	
+</div>
+<a style="display:none;" id="show_pad" href="javascript:;" onclick="document.getElementById('ctrl_pad').style.display='block';document.getElementById('show_pad').style.display='none';">↓↓ 重新显示</a>
+<div id="bg">
+</div>
+<div id="loading">
+	loading...
+</div>
+</body>
+</html>
