@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "/www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="/www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>欢乐的留言框-MySweet95.com</title>
+<style>
+body,form,h2,ul,h3,input,textarea{margin:0; padding:0}
+textarea{ overflow:auto;resize:none;}
+li{ list-style:none;}
+html{height:100%;}
+body{background:#570226;height:100%; font:Arial, Helvetica, sans-serif;}
+h2{ font-family:Arial, Helvetica, sans-serif}
+.wrap{width:740px; height:498px;background:url(img/bg.jpg) no-repeat; position:absolute;top:50%;left:50%;margin-left:-370px;margin-top:-249px;overflow:hidden;}
+#head{position:absolute;left:50px;top:20px; font-size:20px;color:#fff; line-height:28px;text-shadow:2px 2px 0 #a72244;}
+#head .title{ position:absolute;width:340px; top:-100px;}
+#head .url{ font-size:14px; position:absolute; top:28px; opacity:0;filter:alpha(opacity=0); left:700px;width:340px;}
+#list{ position:absolute;left:164px; top:-100px;}
+#list li{position:absolute; top:0;left:0;}
+.listLeft{width:80px;height:80px;background:url(img/btn.png) no-repeat;_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/btn.png');_background:none; position:relative; text-align:center; line-height:80px; font-size:20px; color:#f8f8f8; z-index:5;}
+.text{width:0; height:0;border:1px solid #4C4042;line-height:26px; font-size:12px; font-family:Arial, Helvetica, sans-serif;color:#000; position:absolute; left:30px;top:20px; z-index:2;border-radius:19px; outline:none;}
+#btn{width:50px;height:50px;background:url(img/btn.png) no-repeat; _background:url(img/btn.gif) no-repeat; position:absolute; text-align:center; font-size:12px;color:#fff; padding:15px; line-height:20px; text-decoration:none; z-index:20;left:335px; top:-240px; }
+#mask{ position:absolute;width:100%;height:100%;background:#000;left:0;top:0; z-index:100;opacity:0;filter:alpha(opacity=0); display:none;}
+#loading{width:32px;height:32px;background:url(img/loading.gif) no-repeat; position:absolute;left:50%;top:50%;margin:-16px 0 0 16px; display:none;}
+</style>
+<script src="js/miaovMove.js"></script>
+<script>
+window.onload=function()
+{
+	toHead();
+	toChecking();
+}
+function toList()
+{
+	var oList=id("list");
+	var oBtn=id("btn");
+	var aLi=oList.getElementsByTagName("li");
+	var aText=getClass('text',oList);
+	var aStyle=[
+		{height:26,width:246,paddingBottom:5,paddingTop:5,paddingLeft:50,paddingRight:50},
+		{height:26,width:246,paddingBottom:5,paddingTop:5,paddingLeft:50,paddingRight:50},
+		{height:140,width:246,paddingBottom:5,paddingTop:5,paddingLeft:50,paddingRight:50}
+	];
+	var i=0;
+	for(i=0;i<aLi.length;i++)
+	{
+		aLi[i].style.zIndex=aLi.length-i;
+	}
+	starMove(oList,{top:94},1,function(){
+		starMove(aText[0],aStyle[0],1);
+		starMove(aLi[2],{top:85},1);
+		starMove(aLi[1],{top:85},1,function(){
+			starMove(aText[1],aStyle[1],1);
+		starMove(aLi[2],{top:170},1,function(){
+				starMove(aText[2],aStyle[2],1,function(){
+					starMove(oBtn,{top:0},1);
+				});
+			});
+		});
+	});
+}
+function toSubmit()
+{
+	var oMask=id("mask");
+	var oLoading=id("loading");
+	var oForm=id("form");
+	oMask.style.display="block";
+	starMove(oMask,{opacity:50},0,function(){
+		oLoading.style.display="block";
+		oForm.submit();
+	});
+}
+function toChecking()
+{
+	var oList=id("list");
+	var oBtn=id("btn");
+	var aText=getClass('text',oList);
+	var i=0;
+	aText[aText.length-1].onpropertychange=function()
+	{
+		if(this.value.length>3)
+		{
+		oBtn.innerHTML="提交";
+		oBtn.style.lineHeight="50px";
+		oBtn.onclick=toSubmit;	
+		}
+	};	
+	aText[aText.length-1].oninput=function()
+	{
+		if(this.value.length>3)
+		{
+			oBtn.innerHTML="提交";
+			oBtn.style.lineHeight="50px";
+			oBtn.onclick=toSubmit;	
+		}
+	};
+	for(i=0;i<aText.length;i++)
+	{
+		aText[i].value="";
+		aText[i].index=i;
+		aText[i].disabled=false;	
+		aText[i].onfocus=function()
+		{
+			for(i=0;i<=this.index;i++)
+			{
+				if(aText[i].value=="")
+				{
+					var iTop=css(aText[i],'height')+30+css(aText[i].parentNode,'top')-56;					starMove(oBtn,{top:iTop},1,function(){
+						aText[i].focus();
+					});
+					return;
+				}
+			}
+		}
+		aText[i].onblur=function()
+		{
+			for(i=0;i<aText.length;i++)
+			{
+				if(aText[i].value=="")
+				{
+					var iTop=css(aText[i],'height')+30+css(aText[i].parentNode,'top')-56;		
+					starMove(oBtn,{top:iTop},0,function(){
+						aText[i].focus();
+					});
+					return ;
+				}
+			}
+			if(this.index==aText.length-1)
+			{
+				oBtn.innerHTML="提交";
+				oBtn.style.lineHeight="50px";
+				oBtn.onclick=toSubmit;	
+			}
+		}
+	}
+}
+function toHead()
+{
+	var oHead=id("head");
+	var oUrl=oHead.children[1];
+	var oTitle=oHead.children[0]
+	var aTitle=oTitle.innerHTML.split("");
+	var iNow=0;
+	var oTimer=null;
+	var i=0;
+	for(i=0;i<aTitle.length;i++)
+	{
+		aTitle[i]="<span>"+aTitle[i]+"</span>";
+	}
+	oTitle.innerHTML=aTitle.join("");
+	aTitle=oTitle.children;
+	for(i=0;i<aTitle.length;i++)
+	{
+		aTitle[i].style.left=aTitle[i].offsetLeft+"px";
+		aTitle[i].style.top=aTitle[i].offsetTop+"px";
+	}
+	for(i=0;i<aTitle.length;i++)
+	{
+		aTitle[i].style.position="absolute";
+	}
+	oTimer=setInterval(
+		function()
+		{
+			if(iNow==aTitle.length)
+			{
+				clearInterval(oTimer);
+				starMove(oUrl,{left:0,opacity:100},0,function(){toList();});
+			}
+			else
+			{
+				starMove(aTitle[iNow],{top:100},1);
+				iNow++;
+			}
+		},
+	50);
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+	<form action="mysweet95.com" method="get" id="form">
+		<h2 id="head">
+			<strong class="title">欢乐的留言框</strong>
+			<span class="url">www.miaov.com</span>
+		</h2>
+		<div id="list">
+			<ul>
+				<li>
+					<h3 class="listLeft">标题</h3>
+					<input type="text" value="" class="text" name="title" disabled="disabled"/>
+				</li>
+				<li>
+					<h3 class="listLeft">QQ</h3>
+					<input type="text" value="" class="text" name="QQ" disabled="disabled"/>
+				</li>
+				<li>
+					<h3 class="listLeft">内容</h3>
+					<textarea class="text text1" name="content" disabled="disabled"></textarea>
+				</li>
+			</ul>
+			<a href="javascript:;" id="btn">亲，请<br />完成此处</a>
+		</div>
+	</form>
+</div>
+<div id="mask"></div>
+<div id="loading"></div>
+</body>
+</html>
