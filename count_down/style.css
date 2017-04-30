@@ -1,0 +1,32 @@
+
+* { padding: 0; margin: 0; }
+body { background: #191919 url(images/body.gif); margin: 20px 0; }
+
+#miaov { width: 600px; height: 660px; background: url(images/miaov_bg.jpg) no-repeat; position: relative; margin: 0 auto; }
+
+#fill_in { font-size: 14px; color: #ccc; font-weight: bold; position: absolute; top: 108px; left: 136px; }
+#fill_in input { background: none; border: 0; text-align: center; font-weight: bold; font-size: 14px; color: #ccc; float: left; overflow: hidden;height: 18px; line-height: 18px; color: #666; position: relative; top: 2px; }
+#fill_in span { float: left; padding-top: 4px; text-align:center; }
+#fill_in .long_text { width: 80px;  }
+#fill_in .text { width: 50px; }
+#fill_in .title { width: 60px; }
+#fill_in .space1 { width: 36px; }
+#fill_in .space2 { width: 28px; }
+#fill_in .space3 { padding-left: 8px; }
+
+.go { position: absolute; top: 155px; left: 237px; width: 150px; height: 150px; }
+.go:hover { background: url(images/btn_hover.jpg) no-repeat; }
+.active {position: absolute; top: 155px; left: 237px; width: 150px; height: 150px; background: url(images/btn_hover.jpg) no-repeat; filter:alpha(opacity:0); opacity:0;}
+
+#target { width: 100%; text-align: center; color: #ccc; font-weight: bold; position: absolute; left: 0; top: 336px; font-family: arial; }
+#target strong { color: #fef58c; }
+
+#date { position: absolute; top: 392px; right: 92px; color: #fc3; font-size: 48px; font-family: arial; font-weight: bold; }
+#date p { position: absolute; top: 0; }
+#day { right: 340px; }
+#hour { right: 236px; }
+#min { right: 102px; }
+#sec { right: 0; }
+
+h1 { position: absolute; bottom: 0; right: 0; }
+h1 a { position: absolute; right: 40px; bottom: 30px; width: 292px; height: 72px; }
