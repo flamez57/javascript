@@ -12,7 +12,7 @@
 演示地址：https://flamez57.github.io/javascript/QQ_enter/
 <hr>
 <hr>
-<h3>3D_panorama</h3>
+<h3>all_photo</h3>
 演示地址：https://flamez57.github.io/javascript/all_photo/
 <hr>
 <hr>
@@ -40,7 +40,7 @@
 演示地址：https://flamez57.github.io/javascript/count_down/
 <hr>
 <hr>
-<h3>3D_panorama</h3>
+<h3>live_say</h3>
 演示地址：https://flamez57.github.io/javascript/live_say/
 <hr>
 <hr>
