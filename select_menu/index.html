@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="css/index.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">
+var count=0;
+window.onload=function ()
+{
+	var oUl=document.getElementById('miaov_box');
+	var oUlShade=document.getElementById('miaov_boxShade');
+	var oUlShadeSecond=document.getElementById('miaov_boxShadeSecond');
+	var aLiBox=oUl.getElementsByTagName('li');
+	var aLi=document.getElementsByTagName('li');
+	var timer=null;
+	var i=0,j=0;
+	
+	oUl.onmouseover=function ()
+	{
+		clearTimeout(timer);
+	};
+	
+	oUl.onmouseout=function ()
+	{
+		for(i=0;i<aLi.length;i++)
+		{
+			switch(aLi[i].parentNode.className)
+				{
+					case 'miaov_navTopSecond':
+					case '':
+						aLi[i].className='';
+						break;
+				}
+		};
+		clearTimeout(timer);
+		timer=setTimeout(function (){
+			oUlShade.style.display=oUlShadeSecond.style.display=oUl.style.display='none';
+			for(i=0;i<aLiBox.length;i++)aLiBox[i].className='';
+			
+			for(i=0;i<aLi.length;i++)
+			{
+				switch(aLi[i].parentNode.className)
+				{
+					case 'miaov_navTopSecond':
+						oUlShade.style.display=oUlShadeSecond.style.display=oUl.style.display='none';
+						aLiBox[aLi[i].index].className='';
+					case '':
+						aLi[i].className='';
+						break;
+					case 'miaov_navBottom':
+					case 'miaov_navTop':
+						aLi[i].className='';
+						break;
+				}
+			}
+		}, 500);
+	};
+	
+	for(i=0;i<aLi.length;i++)
+	{
+		aLi[i].onmouseover=function ()
+		{
+			clearTimeout(timer);
+			switch(this.parentNode.className)
+			{
+				case 'miaov_navTopSecond':
+					oUlShade.style.display=oUlShadeSecond.style.display=oUl.style.display='block';
+					for(i=0;i<aLiBox.length;i++)aLiBox[i].className='';
+					aLiBox[this.index].className='show';
+				case '':
+					this.className='active';
+					break;
+				case 'miaov_navBottom':
+				case 'miaov_navTop':
+					for(i=0;i<aLi.length;i++)
+						if(aLi[i].parentNode.className=='miaov_navBottom' || aLi[i].parentNode.className=='miaov_navTop')aLi[i].className='';
+					this.className='show';
+					break;
+			}
+		};
+		aLi[i].onmouseout=oUl.onmouseout;
+		if(aLi[i].parentNode.className=='miaov_navTopSecond')
+		{
+			aLi[i].index=j++;
+		}
+	}
+};
+</script>
+</head>
+<body>
+<div class="miaov_page">
+	<div class="miaov_shade"></div>
+	<div class="miaov_shadeSecond"></div>
+	<div class="miaov_nav" id="miaov_nav">
+		<ul class="miaov_navTop" id="miaov_navTop">
+			<li>
+				<h2 class="index"><a href="http://www.miaov.com">妙味官网</a></h2>
+				<ul class="miaov_navTopSecond">
+					<li><a href="http://www.miaov.com/work.html.php">妙味课堂——作品</a></li>
+					<li><a href="http://www.miaov.com/about.html.php">妙味课堂——关于我们</a></li>
+					<li><a href="http://www.miaov.com/work.html.php">妙味课堂——在线留言</a></li>
+				</ul>
+			</li>
+			<li>
+				<h2><a href="http://bbs.miaov.com">妙味茶馆</a></h2>
+				<ul class="miaov_navTopSecond">
+					<li><a href="http://bbs.miaov.com/forumdisplay.php?fid=2">妙味茶馆——视频教程</a></li>
+					<li><a href="http://bbs.miaov.com/forumdisplay.php?fid=3">妙味茶馆——生活秀</a></li>
+					<li><a href="http://bbs.miaov.com/forumdisplay.php?fid=4">妙味茶馆——特效兜</a></li>
+					<li><a href="http://bbs.miaov.com/forumdisplay.php?fid=5">妙味茶馆——技术交流</a></li>
+					<li><a href="http://bbs.miaov.com/forumdisplay.php?fid=6">妙味茶馆——聊吧</a></li>
+				</ul>
+			</li>
+		</ul>
+		<ul class="miaov_navBottom">
+			<li>
+				<h2><a href="http://www.miaov.com/course.html.php">妙味——xhtml+css课程</a></h2>
+				<ul>
+					<li><a href="http://bbs.miaov.com/forumdisplay.php?fid=6">零基础精品课程</a></li>
+					<li><a href="http://www.miaov.com/course_detail_2.html.php#course_details">页面架构师课程</a></li>
+				</ul>
+			</li>
+			<li>
+				<h2><a href="http://www.miaov.com/course.html.php">妙味——javascript课程</a></h2>
+				<ul>
+					<li><a href="http://www.miaov.com/course_video.html.php">网络教学课程</a></li>
+					<li><a href="http://www.miaov.com/course_detail_1.html.php#course_details">精通JavaScript开发课程</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="miaov_boxShade" id="miaov_boxShade"></div>
+	<div class="miaov_boxShadeSecond" id="miaov_boxShadeSecond"></div>
+	<ul class="miaov_box" id="miaov_box">
+		<li class="show">
+			<h3>妙味课堂——作品</h3>
+			<img src="img/logo.jpg" alt="妙味课堂"/>
+			<p>般固（Banggoo）网站，从网站策划、设计、制作、后台整个过程全执行，网站虽小，修改时间旷日持久，历时二个月完成....</p>
+		</li>
+		<li>
+			<h3>妙味课堂——关于我们</h3>
+			<img src="img/logo.jpg" alt="妙味课堂"/>
+			<p>妙味课堂是一支独具特色的IT培训团队，妙味反对传统IT教育枯燥乏味的教学模式，妙味提供一种全新的快乐学习方法！</p>
+		</li>
+		<li>
+			<h3>妙味课堂——在线留言</h3>
+			<img src="img/logo.jpg" alt="妙味课堂"/>
+			<p>请给我们留言吧</p>
+		</li>
+		<li>
+			<h3>妙味茶馆——视频教程</h3>
+			<img src="img/logo.jpg" alt="妙味课堂"/>
+			<p>妙味原创JavaScript视频教程，展现各种超炫特效的实现过程</p>
+		</li>
+		<li>
+			<h3>妙味茶馆——生活秀</h3>
+			<img src="img/logo.jpg" alt="妙味课堂"/>
+			<p>展示学员生活照、上课照，个人秀、合影、活动贴、怪表情、整蛊秀。。。</p>
+		</li>
+		<li>
+			<h3>妙味茶馆——特效兜</h3>
+			<img src="img/logo.jpg" alt="妙味课堂"/>
+			<p>各类JavaScript效果发布、鉴赏、分享、下载，只要觉得好都可以拿来晒晒</p>
+		</li>
+		<li>
+			<h3>妙味茶馆——技术交流</h3>
+			<img src="img/logo.jpg" alt="妙味课堂"/>
+			<p>提出你的问题，分享你的经验，让学习变得轻松有趣</p>
+		</li>
+		<li>
+			<h3>妙味茶馆——聊吧</h3>
+			<img src="img/logo.jpg" alt="妙味课堂"/>
+			<p>爱咋扯就咋扯，天南地北由得你说</p>
+		</li>
+	</ul>
+</div>
+</body>
+</html>

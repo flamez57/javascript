@@ -1,0 +1,34 @@
+body,ul,h2,h3,p{margin:0;padding:0;}
+html{height:100%;}
+li{list-style:none;}
+a{text-decoration:none;}
+body{background:url(../img/miaov.png) center no-repeat #90224D;height:100%;}
+.miaov_page{width:960px;margin:0 auto;position:relative;}
+.miaov_shade{width:260px;background-color:#000;opacity:0.2;filter:alpha(opacity=20);position:absolute;top:40px;height:240px;}
+.miaov_nav{width:240px;position:absolute;top:50px;left:10px;padding-top:10px;}
+.miaov_shadeSecond{width:240px;background-color:#CA6F86;position:absolute;top:50px;left:10px;height:220px;opacity:0.4;filter:alpha(opacity=40);}
+.miaov_navTop,.miaov_navBottom,.miaov_nav li{width:220px;margin:0 auto;}
+.miaov_nav li{float:left;}
+.miaov_nav h2 {height:48px;background:#C91743 url(../img/ico.gif) 200px 22px no-repeat;border-bottom:2px solid #F0907A;line-height:50px;text-indent:10px;overflow:hidden;}
+.miaov_nav h2 a{font-size:14px;color:#F4BEB5;}
+.miaov_nav .show h2{background:#E73156;border-left:2px solid #F0907A;position:relative;z-index:10;width:207px;}
+.miaov_nav .show h2 a{color:#F3947C;}
+.miaov_nav li ul{display:none;}
+.miaov_nav .show{position:relative;}
+.miaov_nav .show ul{display:block;position:absolute;left:207px;top:-2px;border:2px solid #F0907A;z-index:5;width:240px;background:#E73156;padding:8px 0;}
+.miaov_nav .show ul li{height:40px;line-height:30px;line-height:40px;text-indent:5px;background:url(../img/ico.gif) 200px -33px no-repeat;border-bottom:2px solid #F0907A;}
+.miaov_nav .show ul li {float:none;}
+.miaov_nav .show ul li a{color:#F3947C;}
+.miaov_nav .show ul .active{background:url(../img/ico.gif) 200px 17px no-repeat #EB5674;}
+.miaov_nav .show ul .active a{color:#F4BEB5;font-weight:bold;}
+.miaov_navTop{border-top:2px solid #F0907A;}
+.miaov_nav .miaov_navBottom .show ul li{background:none;}
+.miaov_nav .miaov_navBottom .show ul .active{background:#EB5674;}
+.miaov_boxShade{width:320px;background-color:#000;opacity:0.2;filter:alpha(opacity=20);position:absolute;top:40px;height:340px;right:50px;display:none;}
+.miaov_boxShadeSecond{width:310px;background-color:#CA6F86;position:absolute;top:45px;height:330px;opacity:0.4;filter:alpha(opacity=40);right:55px;display:none;}
+.miaov_box{width:300px;position:absolute;top:45px;right:60px;display:none;}
+.miaov_box li{display:none;}
+.miaov_box .show{display:block;}
+.miaov_box .show h3{line-height:40px;font-size:14px;color:#F3947C;}
+.miaov_box .show img{float:left;}
+.miaov_box .show p{text-indent:2em;font-size:12px;line-height:20px;padding-top:5px;color:#F4BEB5;clear:both;}
