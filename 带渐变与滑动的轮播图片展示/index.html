@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>带渐变与滑动的图片展示-www.miaov.com-妙味课堂</title>
+<style>
+ul{ margin:0; padding-left:0;}
+li{ list-style:none;}
+img{ border:none;}
+#main{ width:280px; height:330px; overflow:hidden; position:relative; margin:20px auto 0 auto;}
+#main ul{ position:absolute; left:0;}
+#main ul li{ width:280px; height:330px; float:left; position:absolute; filter:alpha(opacity=0); opacity:0;}
+#btn{ line-height:13px; text-align:center; background:#eeeeee; width:280px; margin:10px auto 0 auto;}
+#btn a{ display:inline-block; background:url(img.gif) no-repeat; width:13px; height:13px;}
+#btn a.index{ background-position:-13px 0;}
+#btn a.active{ background-position:-26px 0;}
+#btn a.prev{ background-position:0 0;}
+#btn a.next{ background-position:-39px 0;}
+</style>
+<script type="text/javascript" src="miaov.js"></script>
+<script>
+window.onload = function(){
+	var oMain = document.getElementById('main');
+	var oUl = oMain.getElementsByTagName('ul')[0];
+	var aLi = oUl.getElementsByTagName('li');
+	
+	var oBtn = document.getElementById('btn');
+	var aA = oBtn.getElementsByTagName('a');
+	
+	var iNow = 1;
+	var iNow2 = 1;
+	var bBtn = true;
+	var num = 3;
+	var timer = null;
+	
+	oUl.style.width = aLi.length * aLi[0].offsetWidth + 'px';
+	
+	aA[0].onclick = function(){
+		if(bBtn){
+			clearInterval(timer);
+			timer = setInterval(autoPlay,3000);
+			for(var i=0;i<aLi.length;i++){
+				aLi[i].style.position = 'relative';
+				aLi[i].style.filter = 'alpha(opacity=100)';
+				aLi[i].style.opacity = 1;
+			}
+			oUl.style.left = -(iNow-1)*aLi[0].offsetWidth + 'px';
+			if(iNow==1){
+				iNow = aLi.length;
+				aLi[aLi.length-1].style.position = 'relative';
+				aLi[aLi.length-1].style.left = -aLi.length * aLi[0].offsetWidth + 'px';
+			}
+			else{
+				iNow--;
+			}
+			iNow2--;
+			toRun();
+			bBtn = false;
+		}
+	};
+	aA[aA.length-1].onclick = function(){
+		if(bBtn){
+			clearInterval(timer);
+			timer = setInterval(autoPlay,3000);
+			for(var i=0;i<aLi.length;i++){
+				aLi[i].style.position = 'relative';
+				aLi[i].style.filter = 'alpha(opacity=100)';
+				aLi[i].style.opacity = 1;
+			}
+			oUl.style.left = -(iNow-1)*aLi[0].offsetWidth + 'px';
+			if(iNow==aLi.length){
+				iNow = 1;
+				aLi[0].style.position = 'relative';
+				aLi[0].style.left = aLi.length * aLi[0].offsetWidth + 'px';
+			}
+			else{
+				iNow++;
+			}
+			iNow2++;
+			toRun();
+			bBtn = false;
+		}
+	};
+	
+	for(var i=1;i<aA.length-1;i++){
+		aA[i].index = i;
+		aA[i].onclick = function(){
+			clearInterval(timer);
+			timer = setInterval(autoPlay,3000);
+			iNow = this.index;
+			iNow2 = this.index;
+			toShow();
+		};
+	}
+	
+	function toRun(){	
+		for(var i=1;i<aA.length-1;i++){
+			aA[i].className = 'index';
+		}
+		aA[iNow].className = 'active';
+		
+		startMove(oUl,{left:-(iNow2-1)*aLi[0].offsetWidth},function(){
+			if(iNow==1){
+				aLi[0].style.position = 'relative';
+				aLi[0].style.left = 0;
+				oUl.style.left = 0;
+				iNow2 = 1;
+			}
+			else if(iNow==aLi.length){
+				aLi[aLi.length-1].style.position = 'relative';
+				aLi[aLi.length-1].style.left = 0;
+				oUl.style.left = -(aLi.length-1)*aLi[0].offsetWidth + 'px';
+				iNow2 = aLi.length;
+			}
+			
+			for(var i=0;i<aLi.length;i++){
+				aLi[i].style.position = 'absolute';
+				aLi[i].style.filter = 'alpha(opacity=0)';
+				aLi[i].style.opacity = 0;
+			}
+			oUl.style.left = 0;
+			aLi[iNow2-1].style.zIndex = num++;
+			aLi[iNow2-1].style.filter = 'alpha(opacity=100)';
+			aLi[iNow2-1].style.opacity = 1;
+			
+			bBtn = true;
+		});
+	}
+	
+	function toShow(){
+		for(var i=1;i<aA.length-1;i++){
+			aA[i].className = 'index';
+		}
+		for(var i=0;i<aLi.length;i++){
+			startMove(aLi[i],{opacity:0});
+		}
+		aA[iNow].className = 'active';
+		startMove(aLi[iNow-1],{opacity:100},function(){
+			aLi[iNow-1].style.zIndex = num++;
+			
+		});
+	}
+	
+	timer = setInterval(autoPlay,3000);
+	
+	function autoPlay(){
+		if(iNow==aLi.length){
+			iNow = 1;
+			iNow2 = 1;
+		}
+		else{
+			iNow++;
+			iNow2++;
+		}
+		
+		toShow();
+	}
+};
+</script>
+</head>
+
+<body>
+<div id="main">
+	<ul>
+    	<li style="z-index:2; filter:alpha(opacity=100); opacity:1;"><a href="http://www.miaov.com/free_experience.html.php"><img src="1.jpg" /></a></li>
+        <li><a href="http://www.miaov.com/course_detail_1.html.php"><img src="2.jpg" /></a></li>
+        <li><a href="http://www.miaov.com/video.html.php?type=1"><img src="3.jpg" /></a></li>
+        <li><a href="http://www.miaov.com/video.html.php?type=2"><img src="4.jpg" /></a></li>
+    </ul>
+</div>
+<div id="btn">
+	<a class="prev" href="javascript:;"></a>	
+	<a class="active" href="javascript:;"></a>	
+	<a class="index" href="javascript:;"></a>	
+	<a class="index" href="javascript:;"></a>	
+	<a class="index" href="javascript:;"></a>	
+	<a class="next" href="javascript:;"></a>
+</div>
+</body>
+</html>
