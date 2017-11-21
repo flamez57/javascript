@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>弹性滑动导航效果 - 妙味课堂 - www.miaov.com</title>
+<!--[if lte IE 6]><script src="js/DD_belatedPNG_0.0.8a.js" type="text/javascript"></script><script type="text/javascript">DD_belatedPNG.fix('li');</script><![endif]-->
+<style type="text/css">
+* { padding: 0; margin: 0; }
+li { list-style: none; }
+body { background: #333; }
+#box { width: 600px; height: 518px; background: url(images/box.jpg) no-repeat; position: absolute; top: 50%; left: 50%; margin: -259px 0 0 -300px; }
+#box a { text-decoration: none; }
+#box h2 { font-weight: normal; padding-left: 25px; line-height: 60px; color: #ccc; }
+#box h2 a { font-size: 14px; color: #999; }
+#box h2 a:hover { color: #ebebeb; text-decoration: underline; position: relative; top: 1px; }
+#box ul { width: 490px; height: 65px; position: absolute; top: 50%; left: 50%; margin: -30px 0 0 -245px; }
+#box li { width: 163px; height: 65px; float: left; background: url(images/btn.png) no-repeat; position: relative; }
+#box img { position: absolute; left: 50%; bottom: 8px; z-index: 3; width: 0; margin-left: 0; }
+#box li a { width: 152px; height: 44px; padding-top: 8px; text-align: center; font-size: 14px; font-weight: bold; font-family: arial; color: #fff; line-height: 18px; position: absolute; top: 4px; left: 4px; z-index: 2; }
+#box li a span { color: #999; font-weight: normal; font-size: 12px; }
+#box .bg { width: 152px; height: 0px; background: #03080e; position: absolute; left: 4px; top: 56px; z-index: 1; overflow:hidden; }
+#box h1 { position: absolute; bottom: 0; left: 0; }
+#box h1 a { display: block; width: 280px; height: 57px; background: url(images/footer.gif) no-repeat; }
+#box h1 a:hover { background: url(images/footer.gif) no-repeat 0 -57px; }
+#box h1 span { display: none; }
+</style>
+<script type="text/javascript" src="miaov.js"></script>
+</head>
+
+<body>
+
+<div id="box">
+	<h2>
+		<a href="http://blog.miaov.com">弹性滑动导航效果</a> -
+		<a href="http://www.miaov.com">妙味课堂</a> -
+		<a href="http://www.miaov.com">www.miaov.com</a>
+	</h2>
+	<ul>
+		<li>
+			<img src="images/1.jpg" alt="妙味课堂-javascript高级前端开发课程" longdesc="http://www.miaov.com" />
+			<a href="http://www.miaov.com/course_detail_1.html.php">JavaScript<br /><span>高级前端开发课程</span></a>
+			<span class="bg"></span>
+		</li>
+		<li>
+			<img src="images/2.jpg" alt="妙味课堂-XHTML+CSS高级页面架构师课程" longdesc="http://www.miaov.com" />
+			<a href="http://www.miaov.com/course_detail_2.html.php">XHTML+CSS<br /><span>高级页面架构师课程</span></a>
+			<span class="bg"></span>
+		</li>
+		<li>
+			<img src="images/3.jpg" alt="妙味课堂-CSS网页制作零基础网页制作课程" longdesc="http://www.miaov.com" />
+			<a href="http://www.miaov.com/course_detail_3.html.php">CSS网页制作<br /><span>零基础网页制作课程</span></a>
+			<span class="bg"></span>
+		</li>
+	</ul>
+	<h1><a href="http://www.miaov.com"><span>妙味课堂</span></a></h1>
+</div>
+</body>
+</html>
